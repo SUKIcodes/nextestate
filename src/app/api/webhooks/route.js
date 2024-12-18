@@ -68,14 +68,19 @@ export async function POST(req) {
       if (user && eventType === "user.created") {
         try {
           await clerkClient.users.updateUserMetadata(id, {
-            publicMetadata: { userMongoId: user._id },
+            publicMetadata: {
+              userMogoId: user._id,
+            },
           });
         } catch (error) {
-          console.log(error.message);
+          console.log("Error: Could not update user metadata:", error);
         }
       }
     } catch (error) {
-      console.log(error.message);
+      console.log("Error: Could not create or update user:", error);
+      return new Response("Error: Could not create or update user", {
+        status: 400,
+      });
     }
   }
 
